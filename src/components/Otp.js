@@ -2,9 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 
 function Otp({ size = 4 }) {
   const [otpInputs, setOtpInputs] = useState(new Array(size).fill(""));
+  const [seconds, setSeconds] = useState(30);
+  const timer = useRef(null);
 
   //let ref be an array
   const otpRefs = useRef([]);
+
+  useEffect(() => {
+    if (timer.current == null) {
+      timer.current = setInterval(() => {
+        setSeconds((seconds) => seconds - 1);
+      }, 1000);
+    }
+  }, []);
 
   useEffect(() => {
     otpRefs.current[0].focus();
@@ -55,6 +65,23 @@ function Otp({ size = 4 }) {
           />
         );
       })}
+      {/* Resend otp code */}
+      <div className="timer">
+        {seconds > 0 ? (
+          <>Resend OTP in : {seconds} seconds</>
+        ) : (
+          <>
+            <button
+              onClick={(e) => {
+                setSeconds(30);
+                setOtpInputs(new Array(size).fill(""));
+              }}
+            >
+              Resend OTP{" "}
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

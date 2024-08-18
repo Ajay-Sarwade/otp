@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
       <h1>OTP COMPONENT</h1>
-      <Otp size={6} />
+      <Otp size={4} />
     </div>
   );
 }
